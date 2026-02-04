@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Classroom Minecraft Game</title>
+
+<style>
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+#game {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#score {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    z-index: 10;
+}
+
+#computer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 260px;
+}
+
+/* walkers higher above computer */
+.walker {
+    position: absolute;
+    top: calc(50% - 230px);
+    width: 140px;
+}
+
+#playButton, #gameOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 20;
+}
+
+button {
+    font-size: 20px;
+    padding: 12px 28px;
+    cursor: pointer;
+}
+
+#pauseOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    z-index: 30;
+}
+</style>
+</head>
+<body>
+
+<div id="game">
+    <div id="score">0</div>
+
+    <img id="computer" src="images/computer_minecraft.jpg">
+
+    <div id="playButton">
+        <button>▶ Play</button>
+    </div>
+
+    <div id="pauseOverlay">PAUSED</div>
+
+    <div id="gameOver" style="display:none;">
+        <h1>You Got Caught</h1>
+        <p id="finalScore"></p>
+        <button onclick="location.reload()">Play Again</button>
+    </div>
+</div>
+
+<script>
+/* =========================
+   GAME STATE
+========================= */
+let score = 0;
+let playingMinecraft = true;
+let paused = true;
+let running = false;
+let gameOver = false;
+
+let speed = 120;
+
+let spawnTime = 9000;
+const minSpawnTime = 2000;
+
+let studentCount = 0;
+
+const computer = document.getElementById("computer");
+const scoreEl = document.getElementById("score");
+const pauseOverlay = document.getElementById("pauseOverlay");
+
+/* =========================
+   START GAME
+========================= */
+document.querySelector("#playButton button").onclick = () => {
+    paused = false;
+    running = true;
+    document.getElementById("playButton").style.display = "none";
+    spawnLoop();
+};
+
+/* =========================
+   CONTROLS
+========================= */
+document.addEventListener("keydown", e => {
+    if (e.code === "Space" && !paused && !gameOver) {
+        e.preventDefault();
+        toggleComputer();
+    }
+
+    if (e.key.toLowerCase() === "p") {
+        paused = !paused;
+        pauseOverlay.style.display = paused ? "flex" : "none";
+    }
+});
+
+/* =========================
+   COMPUTER TOGGLE
+========================= */
+function toggleComputer() {
+    playingMinecraft = !playingMinecraft;
+    computer.src = playingMinecraft
+        ? "images/computer_minecraft.jpg"
+        : "images/computer_school.jpg";
+}
+
+/* =========================
+   SCORE LOOP
+========================= */
+setInterval(() => {
+    if (!running || paused || gameOver) return;
+    score += playingMinecraft ? 1 : -0.5;
+    scoreEl.textContent = Math.floor(score);
+}, 1000);
+
+/* =========================
+   SPAWN LOOP
+========================= */
+function spawnLoop() {
+    if (paused || gameOver) {
+        setTimeout(spawnLoop, 500);
+        return;
+    }
+
+    spawnStudent();
+
+    spawnTime = Math.max(minSpawnTime, spawnTime - 150);
+    const nextSpawn = spawnTime + Math.random() * 1500;
+
+    setTimeout(spawnLoop, nextSpawn);
+}
+
+function spawnStudent() {
+    spawnWalker(false);
+    studentCount++;
+
+    if (studentCount % 5 === 0) {
+        setTimeout(() => {
+            if (!paused && !gameOver) spawnWalker(true);
+        }, 2000);
+    }
+}
+
+/* =========================
+   WALKERS
+========================= */
+function spawnWalker(isTeacher) {
+    if (paused || gameOver) return;
+
+    const el = document.createElement("img");
+    el.className = "walker";
+    el.src = isTeacher ? "images/teacher.jpg" : "images/student.jpg";
+
+    const fromLeft = Math.random() < 0.5;
+    const centerX = window.innerWidth / 2;
+
+    let x = fromLeft ? -150 : window.innerWidth + 150;
+    let dir = fromLeft ? 1 : -1;
+    let phase = "approach";
+
+    el.style.left = x + "px";
+    document.getElementById("game").appendChild(el);
+
+    const move = setInterval(() => {
+        if (paused || gameOver) return;
+
+        x += dir * speed * 0.016;
+        el.style.left = x + "px";
+
+        if (phase === "approach" && Math.abs(x - centerX) < 10) {
+            phase = "pause";
+            clearInterval(move);
+
+            setTimeout(() => {
+                if (isTeacher && playingMinecraft) endGame();
+                if (!isTeacher && playingMinecraft) score += 25;
+
+                // 50/50 choice after meeting computer
+                dir = Math.random() < 0.5 ? dir * -1 : dir;
+                phase = "exit";
+                resumeMove();
+            }, 1000);
+        }
+    }, 16);
+
+    function resumeMove() {
+        const exitMove = setInterval(() => {
+            if (paused || gameOver) return;
+
+            x += dir * speed * 0.016;
+            el.style.left = x + "px";
+
+            if (x < -300 || x > window.innerWidth + 300) {
+                clearInterval(exitMove);
+                el.remove();
+            }
+        }, 16);
+    }
+}
+
+/* =========================
+   DIFFICULTY (speed)
+========================= */
+setInterval(() => {
+    if (!paused && !gameOver) speed += 10;
+}, 15000);
+
+/* =========================
+   GAME OVER
+========================= */
+function endGame() {
+    gameOver = true;
+    document.getElementById("gameOver").style.display = "block";
+    document.getElementById("finalScore").textContent =
+        "Final Score: " + Math.floor(score);
+}
+</script>
+
+</body>
+</html>
