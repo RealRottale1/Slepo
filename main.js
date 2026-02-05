@@ -93,13 +93,21 @@ function movePeople() {
 }
 
 async function handlePeople() {
+    let ticks = 0;
+    let spawnOdds = 0.125;
+    let scaling = 0;
     while (true) {
         await wait(50)
         if (playing) {
+            ticks += 1;
             movePeople()
-            const r = Math.random();
-            if (r < 0.0125) {
-                summonCharacter(r < 0.005 ? false : true);
+            if (ticks == 19) {
+                ticks = 0;
+                scaling += 0.001;
+                const spawnChance = Math.random();
+                if (spawnChance <= spawnOdds + scaling) {
+                    summonCharacter((spawnChance <= 0.05 + scaling/2) ? false : true);
+                } 
             }
         }
     }
