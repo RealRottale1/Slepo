@@ -1,0 +1,31 @@
+#score_div {
+  position: fixed;          /* removes it from layout */
+  top: 6.25%;
+  left: 50%;
+  transform: translate(-50%, -6.25%);
+  text-align: center;
+  font-size: 25px;
+  background-color: rgb(250, 0, 225);
+  padding: 10px;
+  border: 5px rgb(202, 0, 182) solid;
+  border-radius: 5px;
+}
+
+#computer_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: calc(50vh - 100px);
+}
+
+.computer_fake, #computer {
+    margin-left: 50px;
+    margin-right: 50px;
+    z-index: 1;
+}
+
+.student {
+    position: absolute;
+    top: calc(50vh - 200px);
+    z-index: 0;
+}
