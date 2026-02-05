@@ -97,11 +97,11 @@ async function handlePeople() {
     let spawnOdds = 0.125;
     let scaling = 0;
     while (true) {
-        await wait(50)
+        await wait(25)
         if (playing) {
             ticks += 1;
             movePeople()
-            if (ticks == 19) {
+            if (ticks == 39) {
                 ticks = 0;
                 scaling += 0.001;
                 const spawnChance = Math.random();
