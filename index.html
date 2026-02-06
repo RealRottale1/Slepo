@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not WECIB Minecraft Simulator</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    
+    <div id="score_div"> 
+        Aura: 0
+    </div>
+    <div id="computer_div">
+        <img class="computer_fake" src="images/computer_school.png" width="200px", height="200px">
+        <img class="computer_fake" src="images/computer_school.png" width="200px", height="200px">
+        <img id="computer" src="images/computer_minecraft.png" width="200px", height="200px">
+        <img class="computer_fake" src="images/computer_school.png" width="200px", height="200px">
+        <img class="computer_fake" src="images/computer_school.png" width="200px", height="200px">
+    </div>
+    <div id="student_div">
+        <img class="student_fake"  width="200px", height="200px">
+        <img class="student_fake"  width="200px", height="200px">
+        <img id="student_player"  width="200px", height="200px">
+        <img class="student_fake" width="200px", height="200px">
+        <img class="student_fake"  width="200px", height="200px">
+    </div>
+
+    <div id="desk"></div>
+    <div id="deskbottom"></div>
+
+    <div class="overlay" id="startOverlay" style="display: flex;">
+        <h1 id="startScreenTitle">Not WECIB Minecraft Simulator</h1>
+        <div id="play_div">Play</div>
+    </div>
+    <div class="overlay" id="deathOverlay" style="display: none;">
+        <h1 id="deathScreenTitle">You Got Caught!</h1>
+        <p id="finalScore">Score: </p>
+        <button id="playAgain">Play Again!</button>
+    </div>
+    <div class="overlay" id="pauseOverlay" style="display: none;">
+        <h2 id="pauseScreenTitle">Game Paused</h2>
+        <p id="continue">click 'p' to continue</p>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

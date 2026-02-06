@@ -1,0 +1,181 @@
+@font-face {
+    font-family: 'cookiefont';
+    src: url(Fonts/cookie_bold.TTF) format('truetype');
+    font-weight: bold;
+}
+@font-face {
+    font-family: 'cookiefont';
+    src: url(Fonts/cookie_regular.TTF) format('truetype');
+    font-weight: normal;
+}
+
+body {
+  font-family: cookiefont;
+  font-weight: bold;
+  background-color: lightblue;
+}
+
+/*Overlay Styling*/
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0, 0, 0, 0.8);
+    z-index: 3;
+    cursor: pointer;
+}
+
+/*Death Screen Styling*/
+#deathOverlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#deathScreenTitle {
+  color: red;
+  font-size: 64px;
+  margin-bottom: 0;
+}
+#finalScore {
+  color: white;
+  font-size: 36px;
+  margin-top: 0;
+}
+#playAgain {
+  width: 10%;
+  border-radius: 5px;
+  font-family: cookiefont;
+  font-size: 24px;
+}
+
+/*Start Screen Styling*/
+#startOverlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;  
+  background-image: url(images/minecraft-cherry.gif);
+  background-size: 100%;
+}
+#startScreenTitle {
+  color: white;
+  font-size: 72px;
+}
+
+/*Pause Screen Styling*/
+#pauseOverlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;  
+}
+#pauseScreenTitle {
+  font-size: 72px;
+  margin-bottom: 0px;
+  color:white;
+}
+#continue {
+  font-size: 24px;
+  color: rgb(199, 199, 199);
+}
+
+
+
+#desk {
+  position: fixed;
+  background-color: rgb(95, 64, 64);
+  height: 43%;
+  width: 110%;
+  left: -5%;
+  bottom: 0;
+  border-top: 5px rgb(65, 38, 38) solid;
+}
+#deskbottom {
+  position: fixed;
+  background-color: rgb(54, 34, 34);
+  height: 31%;
+  width: 110%;
+  left: -5%;
+  bottom: 0;
+}
+
+#score_div {
+  position: fixed;          /* removes it from layout */
+  top: 6.25%;
+  left: 50%;
+  transform: translate(-50%, -6.25%);
+  text-align: center;
+  font-size: 25px;
+  background-color: rgb(250, 0, 225);
+  padding: 10px;
+  border: 5px rgb(202, 0, 182) solid;
+  border-radius: 5px;
+  z-index: 2;
+}
+
+#computer_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: calc(50vh - 100px);
+}
+
+#student_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: calc(50vh - 350px);
+}
+
+.student_fake, #student_player {
+    margin-left: 50px;
+    margin-right: 50px;
+    z-index: 1;
+}
+
+
+#play_div {
+  /*position: fixed;          Made the play button not fixed into position
+  top: 45.0%;
+  left: 50%;
+  transform: translate(-50%, 0%);*/
+  text-align: center;
+  font-size: 25px;
+  background-color: rgb(97, 47, 47);
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 40px;
+  border: 5px rgb(61, 30, 30) solid;
+  border-top: 20px green solid;
+  border-radius: 5px;
+  z-index: 2;
+}
+
+#play_div:hover {
+  color: white;
+  background-color: rgb(133, 70, 70);
+} 
+
+.computer_fake, #computer {
+    margin-left: 50px;
+    margin-right: 50px;
+    z-index: 1;
+}
+
+.student, .teacher {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    top: calc(50vh - 265px);
+    z-index: 0;
+}
+
+body {
+  overflow: hidden;
+}
